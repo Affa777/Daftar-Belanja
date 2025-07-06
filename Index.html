@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Tester</title>
+  <style>
+  input, button {
+    margin: 1em auto;
+    display: block;
+  }
+  p#warning {
+    text-align: center;
+    display: none;
+  }
+  
+  table {
+    border-collapse: collapse;
+    margin: auto;
+  }
+  
+  th {
+    padding: 0.5em;
+  }
+  
+  td {
+    text-align: center;
+    font-weight: bold;
+  }
+  
+  th:last-child,td:last-child{
+    padding:0 1em ;
+  }
+  
+  .hello {
+   background-color: #ff00007f;
+   border: 2px solid red;
+  }
+  </style>
+</head>
+<body>
+  <input id="name-ipt" type="text" placeholder="Product Name">
+  <input type="number" id="price-ipt" placeholder="Product price">
+  <input type="number" id="amount-ipt" placeholder="Product amount">
+  <button id="add-btn">Add Product</button>
+  <p id="warning">⚠️Nama produk tidak boleh kosong</p>
+  <table border = "1" id="product-data">
+     <tr>
+       <th>Product</th>
+       <th>Price</th>
+       <th>Amount</th>
+       <th>Total</th>
+       <th></th>
+     </tr>
+     <tr>
+       <!-- <td>Pensil</td>
+       <td>3000</td>
+       <td>4</td>
+       <td>12000</td>
+       <td><button class="hello">❌</button></td> -->
+     </tr>
+  </table>
+  <h2>Total: </h2>
+  <script>
+  let table = document.getElementById('product-data')
+  let listProduct = []
+  
+  //Fungsi Tambah product
+  function addProduct(productName, price, amount){
+    let tr = document.createElement("tr")
+    table.appendChild(tr)
+    
+    let td1 = document.createElement("td")
+    td1.innerHTML = productName 
+    tr.appendChild(td1)
+    
+    let td2 = document.createElement("td")
+    td2.innerHTML = price
+    tr.appendChild(td2)
+    
+    let td3 = document.createElement("td")
+    td3.innerHTML = amount
+    tr.appendChild(td3)
+    
+    let td4 = document.createElement("td")
+    td4.innerHTML = price*amount
+    tr.appendChild(td4)
+    
+    let td5 = document.createElement("td")
+    tr.appendChild(td5)
+    
+    let delBtn = document.createElement("button")
+    delBtn.className = "hello"
+    delBtn.innerHTML = "❌"
+    td5.appendChild(delBtn)
+    delBtn.addEventListener("click", function(){
+     tr.remove()
+    })
+    
+    listProduct.push({
+      name : productName,
+      price : price,
+      amount : amount,
+      total : price*amount
+    })
+  }
+ 
+  document.getElementById("add-btn").addEventListener("click",function(){
+    let nameIpt = document.getElementById("name-ipt").value
+    let priceIpt = Number(document.getElementById("price-ipt").value)
+    let amountIpt = Number(document.getElementById("amount-ipt").value)
+    let warning = document.getElementById("warning")
+    if (nameIpt === ""){
+      warning.style.display = "block"
+    }
+    else if (nameIpt.length < 3){
+      warning.style.display = "block"
+      warning.textContent = "⚠️Nama produk minimal 3 huruf"
+    }
+    else if (priceIpt === 0){
+      warning.style.display = "block"
+      warning.textContent = "⚠️Input harga tidak boleh kosong atau 0"
+    }
+    else if (amountIpt === 0){
+      warning.style.display = "block"
+      warning.textContent = "⚠️Input jumlah tidak boleh kosong atau 0"
+    } 
+    else {
+      addProduct(nameIpt,priceIpt,amountIpt)
+      warning.style.display = "none"
+      document.getElementById("name-ipt").value = ""
+      document.getElementById("price-ipt").value = ""
+      document.getElementById("amount-ipt").value = ""
+      
+    }
+  })
+  
+  addProduct("Buku", 400, 5)
+  </script>
+</body>
+</html>
