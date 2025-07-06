@@ -6,6 +6,11 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Tester</title>
   <style>
+*{
+  box-sizing: border-box;
+  font-family: sans-serif;
+}
+
   input, button {
     margin: 1em auto;
     display: block;
@@ -17,7 +22,7 @@
   
   table {
     border-collapse: collapse;
-    margin: auto;
+    margin:2em auto;
   }
   
   th {
@@ -37,6 +42,19 @@
    background-color: #ff00007f;
    border: 2px solid red;
   }
+
+div.total {
+  width: 40%;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+} 
+
+div.total h2 {
+  font-weight: 100;
+  margin: 0;
+}
   </style>
 </head>
 <body>
@@ -51,17 +69,18 @@
        <th>Price</th>
        <th>Amount</th>
        <th>Total</th>
-       <th></th>
+       <th>Delete</th>
      </tr>
-     <tr>
-       <!-- <td>Pensil</td>
-       <td>3000</td>
-       <td>4</td>
-       <td>12000</td>
-       <td><button class="hello">❌</button></td> -->
      </tr>
   </table>
-  <h2>Total: </h2>
+  <div class="total">
+    <h2>Items : </h2>
+    <h2 id="item-total"></h2>
+  </div>
+  <div class="total">
+    <h2>Total :</h2>
+    <h2 id="sub-total"></h2>
+  </div>
   <script>
   let table = document.getElementById('product-data')
   let listProduct = []
@@ -104,6 +123,9 @@
       amount : amount,
       total : price*amount
     })
+
+    renderTotal()
+    renderAmount()
   }
  
   document.getElementById("add-btn").addEventListener("click",function(){
@@ -134,9 +156,27 @@
       document.getElementById("amount-ipt").value = ""
       
     }
+
+    renderTotal()
+    renderAmount()
   })
+
+  function renderTotal(){
+    let subTotal = 0
+    for (let list of listProduct){
+      subTotal = subTotal + list.total
+    }
+    document.getElementById("sub-total").innerHTML = `Rp${subTotal}`
+  }
+
+  function renderAmount(){
+    let items = 0
+    items = items + listProduct.length
+    document.getElementById("item-total").innerHTML = `${items}`
+  }
   
-  addProduct("Buku", 400, 5)
+  addProduct("Buku", 4500, 5)
+  addProduct("Pensil", 2500, 5)
   </script>
 </body>
 </html>
