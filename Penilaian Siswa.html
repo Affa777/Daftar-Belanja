@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Penilaian Siswa</title>
+</head>
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        font-family: sans-serif;
+    }
+
+
+    body {
+        padding: 1em;
+    }
+
+    .input-data-siswa input,
+    select {
+        margin: 0.3em 0;
+    }
+
+    div#data-nilai {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        margin: 2em 0;
+    }
+
+    div.nilai-mapel {
+        width: 30%;
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .nilai-input {
+        width: 3em;
+    }
+
+    div#laporan {
+        width: 30%;
+    }
+
+    .property-laporan {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .data-laporan {
+        border: 1px solid;
+        padding: 5px;
+    }
+</style>
+
+<body>
+    <h1>Kalkulator Penilaian</h1>
+    <div class="input-data-siswa">
+        <h2>Input data siswa</h2>
+        <input type="text" id="nama-siswa" placeholder="Nama siswa">
+        <br>
+        <input type="number" id="no-absen" placeholder="Nomor absen">
+        <br>
+        <input type="text" id="kelas" placeholder="Kelas">
+    </div>
+    <br>
+    <select name="opsi-kelamin" id="opsi-kelamin">
+        <option value="" disabled selected hidden>Pilih kelamin...</option>
+        <option value="Laki-laki">Laki-laki</option>
+        <option value="Perempuan">Perempuan</option>
+    </select>
+    <div id="data-nilai">
+        <h2>Input nilai</h2>
+        <div class="nilai-mapel">
+            <p>Agama</p>
+            <input type="number" class="nilai-input input-mapel1">
+        </div>
+        <div class="nilai-mapel">
+            <p>Matematika</p>
+            <input type="number" class="nilai-input input-mapel2">
+        </div>
+        <div class="nilai-mapel">
+            <p>IPA</p>
+            <input type="number" class="nilai-input input-mapel3">
+        </div>
+        <div class="nilai-mapel">
+            <p>IPS</p>
+            <input type="number" class="nilai-input input-mapel4">
+        </div>
+        <div class="nilai-mapel">
+            <p>Bahasa Indonesia</p>
+            <input type="number" class="nilai-input input-mapel5">
+        </div>
+    </div>
+    <button id="kirim" onclick="clickButton()">Kirim</button>
+    <p id="test">h</p>
+    <h2>Laporan</h2>
+    <div id="laporan">
+    </div>
+</body>
+
+
+<script>
+    let daftarSiswa=[]
+    const baseLaporan = document.getElementById("laporan")
+    function dataSiswa(nama, absen, kelas,kelamin){
+        let dataSiswa = {Nama : nama, Absen : absen, Kelas : kelas, Kelamin: kelamin}
+        daftarSiswa.push(dataSiswa)
+        
+        const dataLaporan = document.createElement("div")
+        dataLaporan.className = "data-laporan"
+        baseLaporan.appendChild(dataLaporan)
+
+        
+        const titleLaporan = document.createElement("h3")
+        titleLaporan.innerHTML = "Laporan Penilaian "
+        dataLaporan.appendChild(titleLaporan)
+            for (let siswa in dataSiswa){
+                const propertyDiv = document.createElement("div")
+                propertyDiv.classList.add("property-laporan")
+    
+                const label = document.createElement("p")
+                label.innerHTML = `${siswa} :`
+                const value = document.createElement("p")
+                value.innerHTML = dataSiswa[siswa]
+    
+                propertyDiv.appendChild(label)
+                propertyDiv.appendChild(value)
+                dataLaporan.appendChild(propertyDiv)
+            }
+        }
+    
+
+    function clickButton(){
+        const iptNama = document.getElementById("nama-siswa").value 
+        const iptAbsen = Number(document.getElementById("no-absen").value)
+        const iptKelas = document.getElementById("kelas").value
+        const iptKelamin = document.getElementById("opsi-kelamin").value
+        if (iptNama.length <= 2){
+            alert("Nama harus di isi dan minimal 2 huruf")
+        }
+        else if(iptAbsen === "" || iptAbsen === 0){
+            alert("Input absen tidak boleh kosong atau 0")
+        }
+        else if(iptKelas === ""){
+            alert("Input kelas tidak boleh kosong")
+        }
+        else if(iptKelamin === ""){
+            alert("Harap pilih kelamin")
+        }
+        else{
+            dataSiswa(iptNama, iptAbsen,iptKelas, iptKelamin)
+            alert("Berhasil ditambahkan")
+            document.getElementById("nama-siswa").value = ""
+            document.getElementById("no-absen").value = ""
+            document.getElementById("kelas").value = ""
+            document.getElementById("opsi-kelamin").value = ""
+        }
+    };
+
+    daftarNilai =[]
+    let nilai1 = document.querySelector(".input-mapel1").value = 12
+    let test = document.getElementById("test")
+    test.innerHTML = nilai1
+    // function averageNilai(arr){
+    //     let sum = 0
+    // }
+
+    dataSiswa()
+</script>
+</html>
