@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>To do list</title>
+    <style>
+        body {
+        text-align: center;
+      }
+
+      p#warning {
+        background-color: rgba(255, 0, 0, 0.2);
+        display: none;
+        color: red;
+        padding: 5px;
+      }
+
+      li {
+        list-style: none;
+        border: 1px solid;
+        display: inline-block;
+        text-align: center;
+      }
+
+      ul {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(7em, 1fr));
+        gap: 1em;
+      }
+
+      button.done-btn {
+        background-color: green;
+        color: rgb(255, 255, 255);
+        margin: 0.2em;
+      }
+
+      button.undo-btn {
+        background-color: blue;
+        color: rgb(255, 255, 255);
+        margin: 0.2em;
+      }
+
+      button.del-btn {
+        background-color: red;
+        color: rgb(255, 255, 255);
+        margin: 0.2em;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Simple To do List</h1>
+    <input type="text" placeholder="tambah tugas" id="add-task-input" />
+    <button id="add-task-btn">Tambah</button>
+    <br />
+    <p id="warning">[!]input tidak boleh kosong</p>
+    <ul id="task-list"></ul>
+    <script>
+         // Storing elements in variables
+      let ulTaskList = document.getElementById("task-list");
+      let pWarning = document.getElementById("warning");
+      pWarning.style.display = "";
+
+      function addTask(taskName) {
+        let li = document.createElement("li");
+        li.className = "item-ctn";
+        ulTaskList.appendChild(li);
+
+        let p = document.createElement("p");
+        p.innerHTML = taskName;
+        li.appendChild(p);
+
+        let doneBtn = document.createElement("button");
+        doneBtn.innerHTML = "Done";
+        doneBtn.className = "done-btn";
+        li.appendChild(doneBtn);
+
+        let undoBtn = document.createElement("button");
+        undoBtn.innerHTML = "Undo";
+        undoBtn.style.display = "none";
+        undoBtn.className = "undo-btn";
+        li.appendChild(undoBtn);
+
+        let delBtn = document.createElement("button");
+        delBtn.innerHTML = "Delete";
+        delBtn.className = "del-btn";
+        li.appendChild(delBtn);
+
+        doneBtn.addEventListener("click", function () {
+          p.style.textDecoration = "line-through";
+          doneBtn.style.display = "none";
+          undoBtn.style.display = "inline-block";
+        });
+
+        undoBtn.addEventListener("click", function () {
+          p.style.textDecoration = "none";
+          doneBtn.style.display = "inline-block";
+          undoBtn.style.display = "none";
+        });
+
+        delBtn.addEventListener("click", function () {
+          li.remove();
+        });
+      }
+
+      addTask("Bangun pagi");
+      addTask("Bangun pagi");
+      addTask("Bangun pagi");
+      addTask("Bangun pagi");
+
+      document
+        .getElementById("add-task-btn")
+        .addEventListener("click", function () {
+          let addTaskInput = document.getElementById("add-task-input").value;
+          if (addTaskInput.trim() === "") {
+            pWarning.style.display = "inline-block";
+          } else {
+            addTask(addTaskInput);
+            pWarning.style.display = "none";
+            document.getElementById("add-task-input").value = "";
+          }
+        });
+    </script>
+  </body>
+</html>
