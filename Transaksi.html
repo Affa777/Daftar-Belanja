@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <style>
+    #tambah-page,
+    #riwayat-page {
+      margin: 1em;
+      border: 1px solid;
+      display: none;
+    }
+
+    #tambah-page {
+      display: block;
+    }
+
+    #riwayat-transaksi {
+      padding: 1em;
+    }
+
+    div#tambah-page input,
+    div#tambah-page button {
+      display: block;
+      margin: 1em;
+    }
+
+    .item-riwayat,
+    .head-riwayat {
+      list-style: none;
+      padding: none;
+      display: flex;
+      text-align: center;
+    }
+
+    .head-riwayat {
+      background-color: grey;
+      color: white;
+    }
+
+    .item-riwayat:nth-child(odd) {
+      background-color: rgba(0, 0, 0, 0.1);
+      color: rgba(124, 124, 124, 0.507);
+    }
+
+    .item-riwayat:nth-child(even) {
+      background-color: rgba(0, 0, 0, 0.04);
+      color: rgba(0, 0, 0, 0.498);
+    }
+
+    .item-riwayat span:nth-of-type(1),
+    .head-riwayat span:nth-of-type(1) {
+      flex-basis: 25%;
+    }
+
+    .item-riwayat span:nth-of-type(2),
+    .head-riwayat span:nth-of-type(2) {
+      flex-basis: 50%;
+    }
+    .item-riwayat span:nth-of-type(3),
+    .head-riwayat span:nth-of-type(3) {
+      flex-basis: 25%;
+    }
+  </style>
+  <body>
+    <h1>Pelacak Transaksi</h1>
+    <p>1. Tambah transaksi</p>
+    <p>2. Riwayat transaksi</p>
+    <p>3. Hitung transaksi</p>
+    <input type="number" id="opsi" />
+    <button id="enter">Enter</button>
+
+    <div id="tambah-page">
+      <h2>Tambah transaksi</h2>
+      <input type="text" id="ket-ipt" />
+      <input type="number" id="jumlah-ipt" />
+      <input type="text" id="jenis-ipt" />
+      <button id="tambah" onclick="clickTambahTransaksi()">Tambah</button>
+    </div>
+
+    <div id="riwayat-page">
+      <ul id="riwayat-transaksi">
+        <li class="head-riwayat">
+          <span>Keterangan</span> <span>Jumlah</span> <span>Jenis</span>
+        </li>
+        <li class="item-riwayat">
+          <span>sample</span> <span>0000</span> <span>undefined</span>
+        </li>
+        <li class="item-riwayat">
+          <span>sample-sample</span> <span>0000</span> <span>undefined</span>
+        </li>
+      </ul>
+    </div>
+
+    <script>
+      let daftarBelanja = [
+        { ket: "Makan", jumlah: 5000, jenis: "keluar" },
+        { ket: "Hasil jualan", jumlah: 2000, jenis: "masuk" },
+        { ket: "Buku", jumlah: 2000, jenis: "keluar" },
+      ];
+
+      //Tambah transaksi Function
+         function clickTambahTransaksi() {
+            let ketInput = document.getElementById("ket-ipt").value
+            let jumlahInput = Number(document.getElementById("jumlah-ipt").value)
+            let jenisInput = document.getElementById("jenis-ipt").value
+            tambahTranksaksi(ketInput,jumlahInput,jenisInput)
+          }
+      let tambahPage = document.getElementById("tambah-page");
+      let riwayatPage = document.getElementById("riwayat-page");
+      let ulRiwayat = document.getElementById("riwayat-transaksi");
+      document.getElementById("enter").addEventListener("click", function () {
+        let opsi = Number(document.getElementById("opsi").value);
+        if (opsi === 1) {
+          alert("Membuka Halaman 1");
+          tambahPage.style.display = "block";
+          riwayatPage.style.display = "none"
+        } else if (opsi === 2) {
+          alert("Membuka Halaman 2");
+          ulRiwayat.innerHTML = `<li class="head-riwayat"><span>Keterangan</span> <span>Jumlah</span> <span>Jenis</span></li>`;
+          for (item of daftarBelanja) {
+            let li = document.createElement("li");
+            li.innerHTML = `<span>${item.ket}</span> <span>${item.jumlah}</span> <span>${item.jenis}</span>`;
+            li.className = "item-riwayat";
+            ulRiwayat.appendChild(li);
+          }
+          tambahPage.style.display = "none";
+          riwayatPage.style.display = " block"
+        } else if (opsi === 3) {
+        } else {
+          alert("Pilihan tidak valid, harus 1-3");
+        }
+      });
+
+      function tambahTranksaksi(k,jm,j) {
+        daftarBelanja.push({ket : k , jumlah : jm , jenis : j})
+      }
+    </script>
+  </body>
+</html>
