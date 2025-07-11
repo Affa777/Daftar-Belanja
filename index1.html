@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <style>
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    li.header {
+      background-color: rgb(148, 143, 7);
+      color: white;
+      display: flex;
+      text-align: center;
+    }
+
+    .item-daftar {
+      display: flex;
+      text-align: center;
+    }
+
+    .item-daftar:nth-child(even) {
+      background-color: gold;
+    }
+
+    .item-daftar:nth-child(odd) {
+      background-color: rgb(254, 235, 124);
+    }
+    .kolom1,
+    .kolom3 {
+      flex-basis: 25%;
+    }
+
+    .kolom2 {
+      flex-basis: 50%;
+    }
+  </style>
+  <body>
+    <ul id="daftar-transaksi">
+      <li class="header">
+        <span class="kolom1">Keterangan</span>
+        <span class="kolom2">Jumlah</span>
+        <span class="kolom3">Jenis</span>
+      </li>
+      <li class="item-daftar">
+        <span class="kolom1">Sample</span>
+        <span class="kolom2">0000</span>
+        <span class="kolom3">undefined</span>
+      </li>
+      <li class="item-daftar">
+        <span class="kolom1">Sample</span>
+        <span class="kolom2">0000</span>
+        <span class="kolom3">undefined</span>
+      </li>
+    </ul>
+    <h2 id="saldo-sekarang"></h2>
+    <h3 id="total-masuk"></h3>
+    <h3 id="total-keluar"></h3>
+  </body>
+  <script>
+    let ul = document.getElementById("daftar-transaksi")
+    let daftarTransaksi = [
+      { ket: "Gajian", jumlah: 10000, jenis: "masuk" },
+      { ket: "Makan", jumlah: 2000, jenis: "keluar" },
+      { ket: "Hasil jualan", jumlah: 2000, jenis: "masuk" },
+      { ket: "Buku", jumlah: 2000, jenis: "keluar" },
+    ];
+
+    daftarTransaksi.forEach((item) => {
+        let li =document.createElement("li")
+        li.className = "item-daftar"
+          if (item.jenis === "masuk"){
+           li.innerHTML = `<span class="kolom1">${item.ket}</span>
+                            <span class="kolom2" >+${item.jumlah}</span>
+                            <span class="kolom3" style="color: green;">${item.jenis}</span>`
+        } else if (item.jenis === "keluar"){
+           li.innerHTML = `<span class="kolom1">${item.ket}</span>
+                            <span class="kolom2">-${item.jumlah}</span>
+                            <span class="kolom3" style="color: red;">${item.jenis}</span>`}
+        ul.appendChild(li)
+    });
+
+    let saldo = document.getElementById("saldo-sekarang")
+    let totalMasuk = document.getElementById("total-masuk")
+    let totalKeluar = document.getElementById("total-keluar")
+    let jumlahMasuk = 0
+    let jumlahKeluar = 0
+    daftarTransaksi.forEach(item =>{
+        if (item.jenis === "masuk"){
+           jumlahMasuk += item.jumlah
+        }
+        if (item.jenis === "keluar"){
+           jumlahKeluar += item.jumlah
+        }
+    })
+
+    totalMasuk.innerHTML = "Jumlah Pemasukam : +"+jumlahMasuk
+    totalKeluar.innerHTML = "Jumlah Pengeluaran : -"+jumlahKeluar
+    saldo.innerHTML = "Saldo Sekarang : " + (jumlahMasuk - jumlahKeluar)
+  </script>
+</html>
