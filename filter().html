@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>filter()</title>
+    <style>
+      #daftar-nilai {
+        list-style: none;
+        padding: 0;
+      }
+
+      #daftar-nilai li {
+        display: flex;
+        list-style: none;
+      }
+
+      .col1,
+      .col2 {
+        flex-basis: 50%;
+        text-align: center;
+      }
+
+      .head-nilai {
+        background-color: grey;
+      }
+
+      .siswa-nilai:nth-child(odd) {
+        background-color: rgba(128, 128, 128, 0.5);
+      }
+
+      .siswa-nilai:nth-child(even) {
+        background-color: rgba(128, 128, 128, 0.3);
+      }
+    </style>
+  </head>
+  <body>
+    <h2 class="label">Laporan penilaian</h2>
+    <ul id="daftar-nilai">
+      <li class="head-nilai">
+        <span class="col1">Nama</span>
+        <span class="col2">Nilai</span>
+      </li>
+      <li class="siswa-nilai">
+        <span class="col1">Nama</span>
+        <span class="col2">Nilai</span>
+      </li>
+      <li class="siswa-nilai">
+        <span class="col1">Nama</span>
+        <span class="col2">Nilai</span>
+      </li>
+    </ul>
+
+    <button id="filter-semua" onclick="tampilkanSemua()">
+      Semua
+    </button>
+    <button id="filter-lulus" onclick="siswaLulusClick()">
+      Siswa yang lulus(>75)
+    </button>
+    <button id="filter-tidakLulus" onclick="siswaTidakLulusClick()">
+      Siswa yang Tidak lulus(>75)
+    </button>
+
+    <script>
+      let daftarNilai = [
+        { nama: "Budi", nilai: 95 },
+        { nama: "Udin", nilai: 70 },
+        { nama: "Lani", nilai: 85 },
+        { nama: "Siti", nilai: 67 },
+        { nama: "Edo", nilai: 75 },
+      ];
+      const ul_daftarNilai = document.getElementById("daftar-nilai");
+
+      function tampilkanSemua() {
+        ul_daftarNilai.innerHTML = renderDaftar()
+        daftarNilai.forEach((item) => {
+          let li = document.createElement("li");
+          li.innerHTML = `
+        <span class="col1">${item.nama}</span>
+        <span class="col2">${item.nilai}</span>`;
+          li.className = "siswa-nilai";
+          ul_daftarNilai.appendChild(li);
+        });
+      }
+
+      let siswaLulus = daftarNilai.filter((item) => item.nilai >= 75);
+      let siswaTidakLulus = daftarNilai.filter((item) => item.nilai < 75);
+
+      function siswaLulusClick() {
+        ul_daftarNilai.innerHTML = renderDaftar()
+        siswaLulus.forEach((item) => {
+          let li = document.createElement("li");
+          li.innerHTML = `
+        <span class="col1">${item.nama}</span>
+        <span class="col2">${item.nilai}</span>`;
+          li.className = "siswa-nilai";
+          ul_daftarNilai.appendChild(li);
+        });
+      }
+
+      function siswaTidakLulusClick() {
+        ul_daftarNilai.innerHTML = renderDaftar()
+        siswaTidakLulus.forEach((item) => {
+          let li = document.createElement("li");
+          li.innerHTML = `
+        <span class="col1">${item.nama}</span>
+        <span class="col2">${item.nilai}</span>`;
+          li.className = "siswa-nilai";
+          ul_daftarNilai.appendChild(li);
+        });
+      }
+
+      //Function bantuan
+      function renderDaftar() {
+        return `<li class="head-nilai">
+          <span class="col1">Nama</span>
+          <span class="col2">Nilai</span>
+        </li>`;
+      }
+
+      tampilkanSemua()
+    </script>
+  </body>
+</html>
