@@ -46,7 +46,7 @@
         <span class="kolom2">Jumlah</span>
         <span class="kolom3">Jenis</span>
       </li>
-      <li class="item-daftar">
+      <!-- <li class="item-daftar">
         <span class="kolom1">Sample</span>
         <span class="kolom2">0000</span>
         <span class="kolom3">undefined</span>
@@ -55,7 +55,7 @@
         <span class="kolom1">Sample</span>
         <span class="kolom2">0000</span>
         <span class="kolom3">undefined</span>
-      </li>
+      </li> -->
     </ul>
     <h2 id="saldo-sekarang"></h2>
     <h3 id="total-masuk"></h3>
@@ -68,6 +68,7 @@
       { ket: "Makan", jumlah: 2000, jenis: "keluar" },
       { ket: "Hasil jualan", jumlah: 2000, jenis: "masuk" },
       { ket: "Buku", jumlah: 2000, jenis: "keluar" },
+      { ket: "Makan", jumlah: 5000, jenis: "keluar" },
     ];
 
     daftarTransaksi.forEach((item) => {
@@ -98,8 +99,15 @@
         }
     })
 
+    const ringkasanTransaksi = daftarTransaksi.map(item => {
+      let ic = item.jenis === "masuk" ? "+": "-"
+      return `${item.ket} : ${ic}${item.jumlah}`
+    })
+
     totalMasuk.innerHTML = "Jumlah Pemasukam : +"+jumlahMasuk
     totalKeluar.innerHTML = "Jumlah Pengeluaran : -"+jumlahKeluar
     saldo.innerHTML = "Saldo Sekarang : " + (jumlahMasuk - jumlahKeluar)
+    console.log(daftarTransaksi)
+    console.log(ringkasanTransaksi)
   </script>
 </html>
