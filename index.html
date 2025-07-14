@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Intermidiate Array Project</title>
+</head>
+<style>
+  h1{
+    text-align: center;
+  }
+  
+  ul#daftar-nilai {
+    padding: 0;
+    list-style: none;
+  }
+  
+  .header-item {
+    background-color: darkblue;
+  }
+  
+  #daftar-nilai li{
+    display: flex;
+    list-style: none;
+  }
+  
+  .col1,.col2{
+    text-align: center;
+    flex-basis: 50%;
+    color: white;
+  }
+  
+  .siswa-item:nth-child(odd){
+    background-color: #00008ba0;
+  }
+  
+  .siswa-item:nth-child(even){
+    background-color: #00008b7f;
+  }
+  
+  #tidak-ditemukan{
+    text-align: center;
+    font-weight: 150;
+    margin: 2em 0;
+    display: none;
+  }
+</style>
+
+<body>
+  <h1>Laporan Penilaian</h1>
+  <input type="number" id="searching" placeholder="Nilai maksimum">
+  <button id="search-btn" onclick="cari()">Cari</button>
+  <ul id="daftar-nilai">
+ <li class="header-item">
+  <span class="col1">Nama</span>
+  <span class="col2">Nilai</span>
+</li>
+<!--    <li class="siswa-item">
+  <span class="col1">Nama</span>
+  <span class="col2">Nilai</span>
+</li>
+<li class="siswa-item">
+  <span class="col1">Nama</span>
+  <span class="col2">Nilai</span>
+</li> -->
+  </ul>
+  <h2 id="tidak-ditemukan">Nilai tidak ditemukan</h2>
+  
+  <button onclick="tampilkan()">Reset</button>
+  
+  <h2 id="banyak-siswa"></h2>
+  <h2 id="total">Jumlah nilai</h2>
+  <h2 id="average">Rata-rata :</h2>
+  <script type="text/javascript" charset="utf-8">
+    let daftarSiswa = [
+  { nama: "Budi", nilai: 95 },
+  { nama: "Udin", nilai: 75 },
+  { nama: "Lani", nilai: 85 },
+  { nama: "Siti", nilai: 67 },
+  { nama: "Edo", nilai: 75 },
+  { nama: "Ani", nilai: 88 },
+  { nama: "Tono", nilai: 92 },
+  { nama: "Rina", nilai: 78 },
+  { nama: "Bayu", nilai: 83 },
+  { nama: "Dina", nilai: 70 },
+  { nama: "Wawan", nilai: 60 },
+  { nama: "Rika", nilai: 90 },
+  { nama: "Yusuf", nilai: 68 },
+  { nama: "Citra", nilai: 86 },
+  { nama: "Tari", nilai: 77 },
+  { nama: "Galih", nilai: 72 },
+  { nama: "Nina", nilai: 80 },
+  { nama: "Hadi", nilai: 65 },
+  { nama: "Fajar", nilai: 82 },
+  { nama: "Mira", nilai: 91 },
+  { nama: "Roni", nilai: 74 },
+  { nama: "Silvi", nilai: 89 },
+  { nama: "Agus", nilai: 93 },
+  { nama: "Putri", nilai: 84 },
+  { nama: "Farhan", nilai: 76 }
+];
+    
+    const ulDaftarSiswa = document.getElementById("daftar-nilai")
+    const tidakDitemukan = document.getElementById("tidak-ditemukan")
+    const banyakSiswa = document.getElementById("banyak-siswa")
+    const total = document.getElementById("total")
+    const average = document.getElementById("average")
+    
+    function tampilkan(){
+      template(daftarSiswa)
+      tidakDitemukan.style.display = "none"
+      banyakSiswa.innerHTML = daftarSiswa.reduce((acc,siswa) => { acc + siswa.nilai},0)
+    }
+    
+    
+    function cari(){
+      let searchInput = Number(document.getElementById('searching').value)
+      let filterSearch = daftarSiswa.filter((siswa) => siswa.nilai <=  searchInput)
+      if (searchInput === ""||searchInput === 0){
+        alert("Input tidak boleh kosong")
+      }
+      else {
+        if (filterSearch.length === 0){
+          tidakDitemukan.style.display = "block"
+          ulDaftarSiswa.innerHTML = renderDaftar()
+          document.getElementById('searching').value = ""
+        }
+        else{
+          tidakDitemukan.style.display = "none"
+          template(filterSearch)
+          document.getElementById('searching').value = ""
+          console.log(filterSearch)}}
+    }
+    
+    tampilkan()
+    //Helper function
+  
+    function renderDaftar(){
+      return `<li class="header-item">
+      <span class="col1">Nama</span>
+      <span class="col2">Nilai</span>
+    </li>`
+    }
+    
+    function template(arr){
+      ulDaftarSiswa.innerHTML = renderDaftar()
+      arr.forEach((siswa) => {
+      let li = document.createElement('li')
+      li.innerHTML =  `
+      <span class="col1">${siswa.nama}</span>
+      <span class="col2">${siswa.nilai}</span>`
+      li.className = "siswa-item"
+      ulDaftarSiswa.appendChild(li)
+     })}
+  </script>
+</body>
+</html>
