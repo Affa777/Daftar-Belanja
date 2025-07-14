@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -69,17 +70,18 @@
   
   <button onclick="tampilkan()">Reset</button>
   
-  <h2 id="banyak-siswa"></h2>
+  <h2 id="banyak-siswa">Banyak siswa :</h2>
   <h2 id="total">Jumlah nilai</h2>
   <h2 id="average">Rata-rata :</h2>
   <script type="text/javascript" charset="utf-8">
+    //Array & Obeject
     let daftarSiswa = [
   { nama: "Budi", nilai: 95 },
   { nama: "Udin", nilai: 75 },
   { nama: "Lani", nilai: 85 },
   { nama: "Siti", nilai: 67 },
-  { nama: "Edo", nilai: 75 },
-  { nama: "Ani", nilai: 88 },
+  { nama: "Edo", nilai: 71 },
+  { nama: "Ani", nilai: 89 },
   { nama: "Tono", nilai: 92 },
   { nama: "Rina", nilai: 78 },
   { nama: "Bayu", nilai: 83 },
@@ -98,19 +100,20 @@
   { nama: "Silvi", nilai: 89 },
   { nama: "Agus", nilai: 93 },
   { nama: "Putri", nilai: 84 },
-  { nama: "Farhan", nilai: 76 }
+  { nama: "Farhan", nilai: 70 }
 ];
     
     const ulDaftarSiswa = document.getElementById("daftar-nilai")
     const tidakDitemukan = document.getElementById("tidak-ditemukan")
     const banyakSiswa = document.getElementById("banyak-siswa")
     const total = document.getElementById("total")
-    const average = document.getElementById("average")
+    const rataRata = document.getElementById("average")
+    
     
     function tampilkan(){
       template(daftarSiswa)
       tidakDitemukan.style.display = "none"
-      banyakSiswa.innerHTML = daftarSiswa.reduce((acc,siswa) => { acc + siswa.nilai},0)
+      renderStatus(daftarSiswa)
     }
     
     
@@ -124,11 +127,13 @@
         if (filterSearch.length === 0){
           tidakDitemukan.style.display = "block"
           ulDaftarSiswa.innerHTML = renderDaftar()
+          renderStatus(filterSearch)
           document.getElementById('searching').value = ""
         }
         else{
           tidakDitemukan.style.display = "none"
           template(filterSearch)
+          renderStatus(filterSearch)
           document.getElementById('searching').value = ""
           console.log(filterSearch)}}
     }
@@ -153,6 +158,21 @@
       li.className = "siswa-item"
       ulDaftarSiswa.appendChild(li)
      })}
+
+
+     function renderStatus(arr){
+      let sum = arr.reduce((acc,siswa) =>  acc + siswa.nilai,0)
+      let average = 0
+      if (arr.length === 0 || arr.length === NaN){
+        average = 0
+      }
+      else {
+         average = (sum/arr.length ).toFixed(2)
+      }
+      banyakSiswa.innerHTML = `Banyak siswa: ${arr.length}`
+      total.innerHTML = `Jumlah nilai : ${sum}`
+      rataRata.innerHTML = `Rata-rata : ${average}`
+     }
   </script>
 </body>
 </html>
