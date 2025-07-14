@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Intermidiate Array Project</title>
+  </head>
+  <style>
+    h1 {
+      text-align: center;
+    }
+
+    input#searching {
+      width: 20%;
+    }
+
+    ul#daftar-nilai {
+      padding: 0;
+      list-style: none;
+    }
+
+    .header-item {
+      background-color: darkblue;
+    }
+
+    #daftar-nilai li {
+      display: flex;
+      list-style: none;
+    }
+
+    .col1,
+    .col2 {
+      text-align: center;
+      flex-basis: 50%;
+      color: white;
+    }
+
+    .siswa-item:nth-child(odd) {
+      background-color: #00008ba0;
+    }
+    .siswa-item:nth-child(even) {
+      background-color: #00008b7f;
+    }
+    #tidak-ditemukan {
+      text-align: center;
+      font-weight: 150;
+      margin: 2em 0;
+      display: none;
+    }
+  </style>
+
+  <body>
+    <h1>Laporan Penilaian</h1>
+    <label for="searching">Nilai harus 1 - 100</label><br />
+    <input
+      type="number"
+      id="searching"
+      placeholder="Nilai minimun"
+      min="1"
+      max="99"
+    />
+    <button id="search-btn" onclick="cari()">Cari</button>
+    <ul id="daftar-nilai">
+      <li class="header-item">
+        <span class="col1">Nama</span>
+        <span class="col2">Nilai</span>
+      </li>
+      <!--    <li class="siswa-item">
+  <span class="col1">Nama</span>
+  <span class="col2">Nilai</span>
+</li>
+<li class="siswa-item">
+  <span class="col1">Nama</span>
+  <span class="col2">Nilai</span>
+</li> -->
+    </ul>
+    <h2 id="tidak-ditemukan">Nilai tidak ditemukan</h2>
+
+    <button onclick="tampilkan()">Reset</button>
+
+    <h2 id="remidi"></h2>
+    <h2 id="lolos"></h2>
+    <h2 id="nilai-tertinggi">Tertinggi :</h2>
+    <h2 id="nilai-terendah">Terendah :</h2>
+    <h2 id="banyak-siswa">Banyak siswa :</h2>
+    <h2 id="total">Jumlah nilai</h2>
+    <h2 id="average">Rata-rata :</h2>
+    <script type="text/javascript" charset="utf-8">
+      //Array & Obeject
+      let daftarSiswa = [
+        { nama: "Budi", nilai: 95 },
+        { nama: "Udin", nilai: 75 },
+        { nama: "Lani", nilai: 85 },
+        { nama: "Siti", nilai: 67 },
+        { nama: "Edo", nilai: 71 },
+        { nama: "Ani", nilai: 89 },
+        { nama: "Tono", nilai: 92 },
+        { nama: "Rina", nilai: 78 },
+        { nama: "Bayu", nilai: 83 },
+        { nama: "Dina", nilai: 70 },
+        { nama: "Wawan", nilai: 60 },
+        { nama: "Rika", nilai: 90 },
+        { nama: "Yusuf", nilai: 68 },
+        { nama: "Citra", nilai: 86 },
+        { nama: "Tari", nilai: 77 },
+        { nama: "Galih", nilai: 72 },
+        { nama: "Nina", nilai: 80 },
+        { nama: "Hadi", nilai: 65 },
+        { nama: "Fajar", nilai: 82 },
+        { nama: "Mira", nilai: 91 },
+        { nama: "Roni", nilai: 74 },
+        { nama: "Silvi", nilai: 89 },
+        { nama: "Agus", nilai: 93 },
+        { nama: "Putri", nilai: 84 },
+        { nama: "Farhan", nilai: 70 },
+      ];
+
+      const ulDaftarSiswa = document.getElementById("daftar-nilai");
+      const tidakDitemukan = document.getElementById("tidak-ditemukan");
+      const banyakSiswa = document.getElementById("banyak-siswa");
+      const total = document.getElementById("total");
+      const rataRata = document.getElementById("average");
+      const nilaiTertinggi = document.getElementById("nilai-tertinggi");
+      const nilaiTerendah = document.getElementById("nilai-terendah");
+      const siswaRemidi = document.getElementById("remidi");
+      const siswaLolos = document.getElementById("lolos");
+
+      function tampilkan() {
+        template(daftarSiswa);
+        tidakDitemukan.style.display = "none";
+        renderStatus(daftarSiswa);
+      }
+
+      function cari() {
+        let searchInput = Number(document.getElementById("searching").value);
+        let filterSearch = daftarSiswa.filter(
+          (siswa) => siswa.nilai >= searchInput
+        );
+        if (!searchInput || searchInput <= 0 || searchInput >= 101) {
+          alert("Input harus valid dan tidak boleh kosong");
+        } else {
+          if (filterSearch.length === 0) {
+            tidakDitemukan.style.display = "block";
+            ulDaftarSiswa.innerHTML = renderDaftar();
+            renderStatus(filterSearch);
+            document.getElementById("searching").value = "";
+          } else {
+            tidakDitemukan.style.display = "none";
+            template(filterSearch);
+            renderStatus(filterSearch);
+            document.getElementById("searching").value = "";
+
+            let cariTop1 = daftarSiswa.find(
+              (siswa) => siswa.nilai === searchInput
+            );
+            if (!cariTop1) {
+              alert("Tidak ditemukan top 1 nya");
+            } else {
+              alert(`Peringkat 1 dari nilai ${cariTop1.nilai} adalah ${cariTop1.nama}`);
+            }
+          }
+        }
+      }
+
+      tampilkan();
+      //Helper function
+
+      function renderDaftar() {
+        return `<li class="header-item">
+      <span class="col1">Nama</span>
+      <span class="col2">Nilai</span>
+    </li>`;
+      }
+
+      function template(arr) {
+        ulDaftarSiswa.innerHTML = renderDaftar();
+        arr.forEach((siswa) => {
+          let li = document.createElement("li");
+          li.innerHTML = `
+      <span class="col1">${siswa.nama}</span>
+      <span class="col2">${siswa.nilai}</span>`;
+          li.className = "siswa-item";
+          ulDaftarSiswa.appendChild(li);
+        });
+      }
+
+      function renderStatus(arr) {
+        let sum = arr.reduce((acc, siswa) => acc + siswa.nilai, 0);
+        let average = 0;
+        if (arr.length === 0) {
+          average = 0;
+        } else {
+          average = (sum / arr.length).toFixed(2);
+        }
+        banyakSiswa.innerHTML = `Banyak siswa: ${arr.length}`;
+        total.innerHTML = `Jumlah nilai : ${sum}`;
+        rataRata.innerHTML = `Rata-rata : ${average}`;
+
+        let minmax = arr.map((siswa) => siswa.nilai);
+        if (minmax.length === 0) {
+          nilaiTertinggi.innerHTML = `Nilai tertinggi :  0`;
+          nilaiTerendah.innerHTML = `Nilai terendah :  0`;
+        } else {
+          nilaiTertinggi.innerHTML = `Nilai tertinggi :  ${Math.max(
+            ...minmax
+          )}`;
+          nilaiTerendah.innerHTML = `Nilai terendah :  ${Math.min(...minmax)}`;
+        }
+
+        let remidi = arr.some((siswa) => siswa.nilai < 75);
+        let remidiList = daftarSiswa.filter((siswa) => siswa.nilai < 75);
+        siswaRemidi.innerHTML =
+          remidi === true
+            ? `Remidi : Ada ${remidiList.length} Siswa`
+            : " Remidi : Tidak ada";
+
+        let lolos = arr.some((siswa) => siswa.nilai >= 75);
+        let lolosList = daftarSiswa.filter((siswa) => siswa.nilai >= 75);
+        siswaLolos.innerHTML =
+          lolos === true
+            ? `Lolos : Ada ${lolosList.length} Siswa`
+            : " Lolos : Tidak ada";
+      }
+    </script>
+  </body>
+</html>
