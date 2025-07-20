@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>To do list</title>
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Icons"
+      rel="stylesheet"
+    />
+    <style>
+      * {
+        padding: 0;
+        margin: 0;
+        box-sizing: border-box;
+        font-family: sans-serif;
+      }
+
+      body {
+        padding-block: 100em;
+      }
+
+      :root {
+        --main-color: rgb(134, 23, 219);
+      }
+
+      .material-icons {
+        user-select: none;
+      }
+
+      /* Navigasi */
+      .add-btn-ctn{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: fixed;
+        z-index: 999;
+        top: 1em;left: 1em;
+      }
+      .add-label{
+        border: 2px solid var(--main-color);
+        color: var(--main-color);
+        transition: all 0.3s ease-in-out;
+        transform: translate(-40px);
+        opacity: 0;
+        padding: 5px;
+        padding-left: 0.7em;
+        border-radius: 0 1em 1em 0;
+      }
+      .add-label.show {
+        transform: translate(-10px);
+        opacity: 1;
+      }
+      #add-task-btn {
+        border-radius: 100%;
+        border: none;
+        background: var(--main-color);
+        color: white;
+        position: relative;
+        z-index: 10;
+      }
+      #add-task-btn span {
+        transform: rotate(0);
+        transition: all 0.3s ease-in-out;
+        font-size: 3em;
+      }
+
+      #add-task-btn.show span {
+        transform: rotate(45deg);
+      }
+
+      button {
+        cursor: pointer;
+        outline: none;
+      }
+
+      .add-page {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        opacity: 0;
+        transform: translateY(100%);
+        margin: 0.5em auto;
+        transition: all 0.4s ease-in;
+        width: clamp(300px, 90%, 600px);
+      }
+      .add-page.show {
+        bottom: 0;
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .add-input {
+        border: 1px solid rgb(212, 212, 212);
+        width: 100%;
+        padding: 1em;
+        display: flex;
+        justify-content: space-evenly;
+        box-shadow: 0 0 1em 6px rgba(0, 0, 0, 0.1);
+        border-radius: 1em;
+      }
+
+      #add-task {
+        border: none;
+        outline: none;
+        background: rgb(237, 237, 237);
+        width: 90%;
+        padding: 0 1em;
+        font-size: 1em;
+        transition: all 0.3s ease-out;
+      }
+
+      .add-icon {
+        border: none;
+        color: white;
+        background: var(--main-color);
+        padding: 0.5em;
+        transition: all 0.3s ease-out;
+      }
+
+      .arrow-down-icon {
+        transform: rotate(270deg);
+        background: none;
+        border: none;
+        transition: all 0.3s ease-out;
+        margin-bottom: 1em;
+        color: gray;
+      }
+
+      .arrow-down-icon.show {
+        transform: rotate(90deg);
+      }
+
+      .add-icon:hover {
+        transform: scale(1.05);
+        background: rgb(97, 17, 159);
+      }
+
+      #add-task:focus {
+        outline: 1px solid var(--main-color);
+      }
+    </style>
+  </head>
+
+  <body>
+    <nav>
+      <div class="add-btn-ctn">
+        <button onclick="toggleAddPage()" id="add-task-btn">
+          <span class="material-icons">add</span>
+        </button>
+        <p class="add-label">Add Task</p>
+      </div>
+    </nav>
+
+    <div class="add-page">
+      <button class="material-icons arrow-down-icon" onclick="toggleAddPage()">
+        arrow_forward_ios
+      </button>
+
+      <div class="add-input">
+        <input type="text" placeholder="Add task" id="add-task" />
+        <button class="material-icons add-icon">add</button>
+      </div>
+    </div>
+
+    <script>
+      const addTaskBtn = document.getElementById("add-task-btn");
+      const addTaskPage = document.querySelector(".add-page");
+      const arrowDown = document.querySelector(".arrow-down-icon");
+      const addLabel = document.querySelector(".add-label");
+
+      function toggleAddPage() {
+        addTaskPage.classList.toggle("show");
+        arrowDown.classList.toggle("show");
+        addTaskBtn.classList.toggle("show");
+        addLabel.classList.toggle("show");
+      }
+    </script>
+  </body>
+</html>
