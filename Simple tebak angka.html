@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+
+  <body>
+    <p id="life">Life : 3</p>
+    <label for="jawaban">Tebak 1 -10</label>
+    <input
+      type="number"
+      placeholder="Masukan Jawabanmu"
+      id="jawaban"
+      min="1"
+      max="10"
+    />
+    <p id="komputer"></p>
+    <button onclick="answer()">Enter</button>
+    <script>
+      const p = document.getElementById("komputer");
+      const life = document.getElementById("life");
+      let rangeNumber = Math.floor(Math.random() * 10) + 1;
+      console.log("Komputer sudah memilih angka " + rangeNumber);
+      let lifeTotal = 3;
+
+      function answer() {
+        let input = Number(document.getElementById("jawaban").value);
+        if (!input || input < 1 || input > 10) {
+          alert("Input harus di isi dan valid");
+          document.getElementById("jawaban").value = "";
+        } else if (input === rangeNumber) {
+          document.getElementById("jawaban").value = "";
+          p.innerHTML = `Jawaban benar ✅, jawabannya ${rangeNumber} dengan sisa nyawa ${lifeTotal} <br> Coba tebak lagi`;
+          lifeTotal = 3;
+          setTimeout(() => {
+            p.innerHTML = "Coba tebak lagi";
+            life.innerHTML = "Life : " + lifeTotal;
+          }, 2000);
+          update();
+        } else {
+          lifeTotal--;
+          document.getElementById("jawaban").value = "";
+          if (lifeTotal !== 0) {
+            p.innerHTML = `Jawaban salah ❌ ,nyawa sisa ${lifeTotal}<br> Coba lagi`;
+            life.innerHTML = "Life : "+ lifeTotal;
+            setTimeout(() => {
+              p.innerHTML = "";
+            }, 2000);
+          } else {
+            p.innerHTML = `GAME OVER <br> jawabannya adalah ${rangeNumber}`;
+            lifeTotal = 3;
+            setTimeout(() => {
+              p.innerHTML = "Coba tebak lagi";
+              life.innerHTML = "Life : "+lifeTotal;
+            }, 2000);
+            update();
+          }
+        }
+      }
+
+      function update() {
+        rangeNumber = Math.floor(Math.random() * 10) + 1;
+        console.log("Komputer sudah memilih angka " + rangeNumber);
+      }
+    </script>
+  </body>
+</html>
